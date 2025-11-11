@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Code2, Github, FileText, BookOpen, GitPullRequest } from 'lucide-react';
+import { ArrowLeft, Code2, Github, FileText, BookOpen, GitPullRequest } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -12,8 +12,10 @@ export default function ContributePage() {
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Code2 className="h-5 w-5" />
-            <span className="font-bold">LearnNative</span>
+            <Button variant="ghost" size="sm">
+              <ArrowLeft className="h-4 w-4 " />
+              Back to Home
+            </Button>
           </Link>
           <div className="flex items-center gap-2">
             <Link href="/docs/android/getting-started">
