@@ -10,10 +10,7 @@ interface MarkdownRendererProps {
 }
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
-  const processedContent = React.useMemo(() => {
-    return parseMarkdown(content);
-  }, [content]);
-
+  const processedContent = React.useMemo(() => parseMarkdown(content), [content]);
   return <div className="prose prose-neutral dark:prose-invert max-w-none">{processedContent}</div>;
 }
 
@@ -31,6 +28,7 @@ function parseMarkdown(content: string): React.ReactNode[] {
   while (i < lines.length) {
     const line = lines[i];
 
+    // Handle :::compare blocks
     if (line.startsWith(':::compare-')) {
       inCompareBlock = true;
       compareTitle = line.replace(':::compare-', '').trim();
@@ -55,6 +53,7 @@ function parseMarkdown(content: string): React.ReactNode[] {
       continue;
     }
 
+    // Handle code blocks
     if (line.startsWith('```')) {
       if (inCodeBlock) {
         inCodeBlock = false;
@@ -77,25 +76,27 @@ function parseMarkdown(content: string): React.ReactNode[] {
       continue;
     }
 
+    // Handle tables
+    if (line.startsWith('|') && line.endsWith('|')) {
+      const tableLines: string[] = [];
+      while (i < lines.length && lines[i].startsWith('|')) {
+        tableLines.push(lines[i]);
+        i++;
+      }
+      elements.push(renderTable(tableLines, i));
+      continue;
+    }
+
+    // Headings
     if (line.startsWith('# ')) {
-      elements.push(
-        <h1 key={`h1-${i}`} className="text-4xl font-bold mt-8 mb-4">
-          {line.replace('# ', '')}
-        </h1>
-      );
+      elements.push(<h1 key={`h1-${i}`} className="text-4xl font-bold mt-8 mb-4">{line.replace('# ', '')}</h1>);
     } else if (line.startsWith('## ')) {
-      elements.push(
-        <h2 key={`h2-${i}`} className="text-3xl font-semibold mt-6 mb-3">
-          {line.replace('## ', '')}
-        </h2>
-      );
+      elements.push(<h2 key={`h2-${i}`} className="text-3xl font-semibold mt-6 mb-3">{line.replace('## ', '')}</h2>);
     } else if (line.startsWith('### ')) {
-      elements.push(
-        <h3 key={`h3-${i}`} className="text-2xl font-semibold mt-4 mb-2">
-          {line.replace('### ', '')}
-        </h3>
-      );
-    } else if (line.startsWith('- ')) {
+      elements.push(<h3 key={`h3-${i}`} className="text-2xl font-semibold mt-4 mb-2">{line.replace('### ', '')}</h3>);
+    }
+    // Lists
+    else if (line.startsWith('- ')) {
       const listItems: string[] = [];
       while (i < lines.length && lines[i].startsWith('- ')) {
         listItems.push(lines[i].replace('- ', ''));
@@ -104,28 +105,106 @@ function parseMarkdown(content: string): React.ReactNode[] {
       elements.push(
         <ul key={`ul-${i}`} className="list-disc list-inside my-4 space-y-2">
           {listItems.map((item, idx) => (
-            <li key={idx}>{item}</li>
+            <li key={idx}>{renderInlineMarkdown(item)}</li>
           ))}
         </ul>
       );
       continue;
-    } else if (line.trim() === '') {
+    }
+    // Horizontal rule
+    else if (line.trim() === '---') {
+      elements.push(<hr key={`hr-${i}`} className="my-6 border-muted" />);
+    }
+    // Blank line
+    else if (line.trim() === '') {
       elements.push(<div key={`space-${i}`} className="h-2" />);
-    } else if (line.startsWith('---')) {
-      i++;
-      continue;
-    } else {
-      elements.push(
-        <p key={`p-${i}`} className="my-3 leading-7">
-          {line}
-        </p>
-      );
+    }
+    // Normal paragraph
+    else {
+      elements.push(<p key={`p-${i}`} className="my-3 leading-7">{renderInlineMarkdown(line)}</p>);
     }
 
     i++;
   }
 
   return elements;
+}
+
+/** Render inline markdown (bold, italic, code, links) */
+function renderInlineMarkdown(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+
+  // Replace inline code first to avoid conflicts
+  const codeRegex = /`([^`]+)`/g;
+  const boldRegex = /\*\*(.*?)\*\*/g;
+  const italicRegex = /(^|[^*])\*(?!\*)([^*]+)\*(?!\*)/g;
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+  let remaining = text;
+  let match;
+
+  const applyReplacements = (input: string): React.ReactNode[] => {
+    const segments: React.ReactNode[] = [];
+    let lastIndex = 0;
+
+    input.replace(linkRegex, (m, label, url, offset) => {
+      if (offset > lastIndex) segments.push(input.slice(lastIndex, offset));
+      segments.push(<a key={offset} href={url} className="text-blue-600 underline">{label}</a>);
+      lastIndex = offset + m.length;
+      return m;
+    });
+
+    if (lastIndex < input.length) segments.push(input.slice(lastIndex));
+    return segments;
+  };
+
+  // Step 1: Handle inline code blocks
+  const codeSplit = remaining.split(codeRegex);
+  for (let j = 0; j < codeSplit.length; j++) {
+    if (j % 2 === 1) {
+      parts.push(<code key={`code-${j}`} className="bg-muted px-1 rounded text-sm">{codeSplit[j]}</code>);
+    } else {
+      let segment = codeSplit[j]
+        .replace(boldRegex, '<strong>$1</strong>')
+        .replace(italicRegex, '$1<em>$2</em>');
+      const parser = new DOMParser();
+      const html = parser.parseFromString(segment, 'text/html').body.innerHTML;
+      parts.push(...applyReplacements(html));
+    }
+  }
+
+  return parts;
+}
+
+/** Render markdown tables */
+function renderTable(lines: string[], key: number) {
+  const headers = lines[0].split('|').filter(Boolean).map(h => h.trim());
+  const rows = lines.slice(2).map(row => row.split('|').filter(Boolean).map(c => c.trim()));
+
+  return (
+    <table key={`table-${key}`} className="my-4 border-collapse border border-muted w-full">
+      <thead>
+        <tr>
+          {headers.map((header, i) => (
+            <th key={i} className="border border-muted px-3 py-2 text-left font-semibold bg-muted/30">
+              {renderInlineMarkdown(header)}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((cols, rIdx) => (
+          <tr key={rIdx}>
+            {cols.map((col, cIdx) => (
+              <td key={cIdx} className="border border-muted px-3 py-2">
+                {renderInlineMarkdown(col)}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 }
 
 function CodeBlock({ language, code }: { language: string; code: string }) {
@@ -144,7 +223,12 @@ function CodeBlock({ language, code }: { language: string; code: string }) {
 }
 
 function CompareBlock({ title, content }: { title: string; content: string }) {
-  const platformName = title === 'react-native' ? 'React Native' : title === 'android' ? 'Android (Kotlin)' : 'iOS (Swift)';
+  const platformName =
+    title === 'react-native'
+      ? 'React Native'
+      : title === 'android'
+      ? 'Android (Kotlin)'
+      : 'iOS (Swift)';
 
   return (
     <Alert className="my-6 border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950">
