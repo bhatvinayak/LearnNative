@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Code2, Github, Search } from 'lucide-react';
+import { ArrowLeft, Code2, Github, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sidebar } from '@/components/sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -33,8 +33,10 @@ export default function DocsLayout({
           <div className="flex items-center gap-2">
             <MobileNav platform={params.platform} items={sidebarItems} />
             <Link href="/" className="flex items-center gap-2">
-              <Code2 className="h-5 w-5" />
-              <span className="font-bold text-lg">LearnNative</span>
+              <Button variant="ghost" size="sm">
+                <ArrowLeft className="h-4 w-4 " />
+                Back to Home
+              </Button>
             </Link>
           </div>
 
