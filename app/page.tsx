@@ -15,7 +15,7 @@ export default function Home() {
             <span className="text-xl font-bold">DevBridge</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/docs/android/getting-started">
+            <Link href="/docs/android/01">
               <Button variant="ghost">Docs</Button>
             </Link>
             <a
@@ -44,7 +44,7 @@ export default function Home() {
             Compare code across platforms and master mobile development.
           </p>
           <div className="flex gap-4 justify-center pt-4">
-            <Link href="/docs/android/getting-started">
+            <Link href="/docs/android/01">
               <Button size="lg">
                 <BookOpen className="h-4 w-4 mr-2" />
                 Start Learning
@@ -60,7 +60,7 @@ export default function Home() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <Link href="/docs/android/getting-started" className="block">
+          <Link href="/docs/android/01" className="block">
             <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1">
               <CardHeader>
                 <div className="h-12 w-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-2">
