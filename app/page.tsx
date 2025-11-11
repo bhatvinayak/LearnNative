@@ -12,14 +12,14 @@ export default function Home() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Code2 className="h-6 w-6" />
-            <span className="text-xl font-bold">DevBridge</span>
+            <span className="text-xl font-bold">LearnNative</span>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/docs/android/getting-started">
               <Button variant="ghost">Docs</Button>
             </Link>
             <a
-              href="https://github.com/devbridge/devbridge"
+              href="https://github.com/bhatvinayak/LearnNative.git"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -122,7 +122,7 @@ export default function Home() {
         </div>
 
         <div className="mt-20 max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8">Why DevBridge?</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">Why LearnNative?</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-2">
               <h3 className="text-lg font-semibold">📚 Comparable Content</h3>
@@ -153,7 +153,7 @@ export default function Home() {
 
         <div className="mt-20 text-center">
           <p className="text-sm text-muted-foreground">
-            DevBridge is open source and MIT licensed.
+            LearnNative is open source and MIT licensed.
             <br />
             Built with Next.js, Tailwind CSS, and love for mobile development.
           </p>

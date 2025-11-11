@@ -1,8 +1,8 @@
-# DevBridge
+# LearnNative
 
 **Learn Mobile Development, Bridge the Platforms**
 
-DevBridge is an open-source documentation website that provides comprehensive learning guides for Android (Kotlin + Jetpack Compose), iOS (Swift + SwiftUI), and React Native. The unique feature of DevBridge is its cross-platform code comparisons, allowing developers to see equivalent implementations across all three platforms.
+LearnNative is an open-source documentation website that provides comprehensive learning guides for Android (Kotlin + Jetpack Compose), iOS (Swift + SwiftUI), and React Native. The unique feature of LearnNative is its cross-platform code comparisons, allowing developers to see equivalent implementations across all three platforms.
 
 ## Features
 
@@ -32,8 +32,8 @@ DevBridge is an open-source documentation website that provides comprehensive le
 
 ```bash
 # Clone the repository
-git clone https://github.com/devbridge/devbridge.git
-cd devbridge
+git https://github.com/bhatvinayak/LearnNative.git
+cd LearnNative
 
 # Install dependencies
 npm install
@@ -47,7 +47,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 ## Project Structure
 
 ```
-devbridge/
+LearnNative/
 ├── app/                    # Next.js app directory
 │   ├── docs/              # Documentation pages
 │   ├── contribute/        # Contribution guide
@@ -87,7 +87,7 @@ Your lesson content here...
 \`\`\`kotlin
 // Code example
 fun example() {
-    println("Hello DevBridge!")
+    println("Hello LearnNative!")
 }
 \`\`\`
 
@@ -95,7 +95,7 @@ fun example() {
 React Native equivalent:
 \`\`\`javascript
 function example() {
-  console.log("Hello DevBridge!");
+  console.log("Hello LearnNative!");
 }
 \`\`\`
 :::
@@ -126,8 +126,8 @@ See the [Contribution Guide](http://localhost:3000/contribute) for detailed inst
 
 ```bash
 # Fork the repository and clone your fork
-git clone https://github.com/YOUR_USERNAME/devbridge.git
-cd devbridge
+git clone https://github.com/bhatvinayak/LearnNative.git
+cd LearnNative
 
 # Create a new branch
 git checkout -b my-new-lesson
@@ -164,9 +164,8 @@ MIT License - see [LICENSE](./LICENSE) file for details.
 
 ## Community
 
-- **Issues**: Report bugs or suggest features on [GitHub Issues](https://github.com/devbridge/devbridge/issues)
-- **Discussions**: Join conversations on [GitHub Discussions](https://github.com/devbridge/devbridge/discussions)
-- **Pull Requests**: Contribute code via [Pull Requests](https://github.com/devbridge/devbridge/pulls)
+- **Issues**: Report bugs or suggest features on [GitHub Issues](https://github.com/bhatvinayak/LearnNative/issues)
+- **Pull Requests**: Contribute code via [Pull Requests](https://github.com/bhatvinayak/LearnNative/pulls)
 
 ## Acknowledgments
 

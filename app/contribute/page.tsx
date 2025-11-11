@@ -13,7 +13,7 @@ export default function ContributePage() {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Code2 className="h-5 w-5" />
-            <span className="font-bold">DevBridge</span>
+            <span className="font-bold">LearnNative</span>
           </Link>
           <div className="flex items-center gap-2">
             <Link href="/docs/android/getting-started">
@@ -28,7 +28,7 @@ export default function ContributePage() {
 
       <main className="flex-1 container mx-auto px-4 py-12 max-w-4xl">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-4">Contribute to DevBridge</h1>
+          <h1 className="text-4xl font-bold mb-4">Contribute to LearnNative</h1>
           <p className="text-xl text-muted-foreground">
             Help us build the best cross-platform mobile development learning resource.
             Everyone is welcome to contribute!
@@ -46,18 +46,18 @@ export default function ContributePage() {
             </CardHeader>
             <CardContent className="space-y-3">
               <p className="text-sm">
-                DevBridge is an open-source project hosted on GitHub. To get started:
+                LearnNative is an open-source project hosted on GitHub. To get started:
               </p>
               <ol className="list-decimal list-inside space-y-2 text-sm">
-                <li>Fork the repository at github.com/devbridge/devbridge</li>
+                <li>Fork the repository at https://github.com/bhatvinayak/LearnNative.git</li>
                 <li>Clone your fork locally</li>
                 <li>Create a new branch for your changes</li>
                 <li>Make your changes and test them</li>
                 <li>Submit a pull request</li>
               </ol>
               <pre className="mt-4 p-4 bg-muted rounded-lg text-sm overflow-x-auto">
-                <code>{`git clone https://github.com/YOUR_USERNAME/devbridge.git
-cd devbridge
+                <code>{`git clone https://github.com/bhatvinayak/LearnNative.git
+cd LearnNative
 git checkout -b my-new-lesson
 npm install
 npm run dev`}</code>
@@ -111,7 +111,7 @@ Lesson content here...
 \`\`\`kotlin
 // Code examples
 fun example() {
-    println("Hello DevBridge!")
+    println("Hello LearnNative!")
 }
 \`\`\`
 
@@ -119,7 +119,7 @@ fun example() {
 React Native equivalent:
 \`\`\`javascript
 function example() {
-  console.log("Hello DevBridge!");
+  console.log("Hello LearnNative!");
 }
 \`\`\`
 :::`}</code>
@@ -206,7 +206,7 @@ function example() {
               </p>
               <div className="flex gap-3">
                 <a
-                  href="https://github.com/devbridge/devbridge"
+                  href="https://github.com/bhatvinayak/LearnNative.git"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -230,7 +230,7 @@ function example() {
           <p>
             Questions? Open an issue on GitHub or reach out to the community.
             <br />
-            Thank you for helping make DevBridge better!
+            Thank you for helping make LearnNative better!
           </p>
         </div>
       </main>

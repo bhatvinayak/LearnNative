@@ -6,7 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'DevBridge - Learn Mobile Development Across Platforms',
+  title: 'LearnNative - Learn Mobile Development Across Platforms',
   description: 'Open-source learning guides for Android, iOS, and React Native. Compare code across platforms and master mobile development.',
 };
 

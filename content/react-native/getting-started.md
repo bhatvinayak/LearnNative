@@ -21,8 +21,8 @@ React Native lets you build mobile apps using React and JavaScript/TypeScript. W
 Install React Native CLI and create a new project:
 
 ```bash
-npx react-native init DevBridgeApp
-cd DevBridgeApp
+npx react-native init LearnNativeApp
+cd LearnNativeApp
 npm start
 ```
 
@@ -42,7 +42,7 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 function HelloWorldScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to DevBridge!</Text>
+      <Text style={styles.title}>Welcome to LearnNative!</Text>
       <View style={styles.spacer} />
       <Button title="Get Started" onPress={() => console.log('Pressed')} />
     </View>
@@ -79,7 +79,7 @@ fun HelloWorldScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Welcome to DevBridge!",
+            text = "Welcome to LearnNative!",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
@@ -98,7 +98,7 @@ Swift + SwiftUI equivalent:
 struct HelloWorldScreen: View {
     var body: some View {
         VStack(spacing: 16) {
-            Text("Welcome to DevBridge!")
+            Text("Welcome to LearnNative!")
                 .font(.title)
                 .fontWeight(.bold)
 

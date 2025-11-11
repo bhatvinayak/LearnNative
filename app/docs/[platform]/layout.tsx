@@ -32,13 +32,13 @@ export default function DocsLayout({
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2">
               <Code2 className="h-5 w-5" />
-              <span className="font-bold">DevBridge</span>
+              <span className="font-bold">LearnNative</span>
             </Link>
             <SearchDialog lessons={allLessons} />
           </div>
           <div className="flex items-center gap-2">
             <a
-              href="https://github.com/devbridge/devbridge"
+              href="https://github.com/bhatvinayak/LearnNative.git"
               target="_blank"
               rel="noopener noreferrer"
             >

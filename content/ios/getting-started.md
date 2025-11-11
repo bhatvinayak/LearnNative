@@ -38,7 +38,7 @@ SwiftUI is Apple's declarative framework for building UIs across all Apple platf
 struct HelloWorldScreen: View {
     var body: some View {
         VStack(spacing: 16) {
-            Text("Welcome to DevBridge!")
+            Text("Welcome to LearnNative!")
                 .font(.title)
                 .fontWeight(.bold)
 
@@ -59,7 +59,7 @@ React Native equivalent:
 function HelloWorldScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to DevBridge!</Text>
+      <Text style={styles.title}>Welcome to LearnNative!</Text>
       <View style={styles.spacer} />
       <Button title="Get Started" onPress={() => {}} />
     </View>

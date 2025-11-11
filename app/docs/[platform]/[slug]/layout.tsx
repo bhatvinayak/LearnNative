@@ -14,7 +14,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${lesson.title} | DevBridge`,
+    title: `${lesson.title} | LearnNative`,
     description: lesson.description,
   };
 }
