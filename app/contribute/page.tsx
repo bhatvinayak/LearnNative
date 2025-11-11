@@ -16,7 +16,7 @@ export default function ContributePage() {
             <span className="font-bold">DevBridge</span>
           </Link>
           <div className="flex items-center gap-2">
-            <Link href="/docs/android/01">
+            <Link href="/docs/android/getting-started">
               <Button variant="ghost" size="sm">
                 Docs
               </Button>
