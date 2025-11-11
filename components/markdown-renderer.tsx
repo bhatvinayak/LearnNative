@@ -28,7 +28,7 @@ function parseMarkdown(content: string): React.ReactNode[] {
   while (i < lines.length) {
     const line = lines[i];
 
-    // Handle :::compare blocks
+    // :::compare custom block
     if (line.startsWith(':::compare-')) {
       inCompareBlock = true;
       compareTitle = line.replace(':::compare-', '').trim();
@@ -53,7 +53,7 @@ function parseMarkdown(content: string): React.ReactNode[] {
       continue;
     }
 
-    // Handle code blocks
+    // Code blocks
     if (line.startsWith('```')) {
       if (inCodeBlock) {
         inCodeBlock = false;
@@ -76,7 +76,7 @@ function parseMarkdown(content: string): React.ReactNode[] {
       continue;
     }
 
-    // Handle tables
+    // Tables
     if (line.startsWith('|') && line.endsWith('|')) {
       const tableLines: string[] = [];
       while (i < lines.length && lines[i].startsWith('|')) {
@@ -111,15 +111,15 @@ function parseMarkdown(content: string): React.ReactNode[] {
       );
       continue;
     }
-    // Horizontal rule
+    // Divider
     else if (line.trim() === '---') {
       elements.push(<hr key={`hr-${i}`} className="my-6 border-muted" />);
     }
-    // Blank line
+    // Blank
     else if (line.trim() === '') {
       elements.push(<div key={`space-${i}`} className="h-2" />);
     }
-    // Normal paragraph
+    // Paragraph
     else {
       elements.push(<p key={`p-${i}`} className="my-3 leading-7">{renderInlineMarkdown(line)}</p>);
     }
@@ -130,53 +130,52 @@ function parseMarkdown(content: string): React.ReactNode[] {
   return elements;
 }
 
-/** Render inline markdown (bold, italic, code, links) */
+/** Inline markdown renderer (no DOMParser) */
 function renderInlineMarkdown(text: string): React.ReactNode[] {
-  const parts: React.ReactNode[] = [];
+  const elements: React.ReactNode[] = [];
+  const regex =
+    /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[([^\]]+)\]\(([^)]+)\))/g;
 
-  // Replace inline code first to avoid conflicts
-  const codeRegex = /`([^`]+)`/g;
-  const boldRegex = /\*\*(.*?)\*\*/g;
-  const italicRegex = /(^|[^*])\*(?!\*)([^*]+)\*(?!\*)/g;
-  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
 
-  let remaining = text;
-  let match;
+  while ((match = regex.exec(text)) !== null) {
+    const [token, , linkText, linkHref] = match;
+    const index = match.index;
 
-  const applyReplacements = (input: string): React.ReactNode[] => {
-    const segments: React.ReactNode[] = [];
-    let lastIndex = 0;
-
-    input.replace(linkRegex, (m, label, url, offset) => {
-      if (offset > lastIndex) segments.push(input.slice(lastIndex, offset));
-      segments.push(<a key={offset} href={url} className="text-blue-600 underline">{label}</a>);
-      lastIndex = offset + m.length;
-      return m;
-    });
-
-    if (lastIndex < input.length) segments.push(input.slice(lastIndex));
-    return segments;
-  };
-
-  // Step 1: Handle inline code blocks
-  const codeSplit = remaining.split(codeRegex);
-  for (let j = 0; j < codeSplit.length; j++) {
-    if (j % 2 === 1) {
-      parts.push(<code key={`code-${j}`} className="bg-muted px-1 rounded text-sm">{codeSplit[j]}</code>);
-    } else {
-      let segment = codeSplit[j]
-        .replace(boldRegex, '<strong>$1</strong>')
-        .replace(italicRegex, '$1<em>$2</em>');
-      const parser = new DOMParser();
-      const html = parser.parseFromString(segment, 'text/html').body.innerHTML;
-      parts.push(...applyReplacements(html));
+    if (index > lastIndex) {
+      elements.push(text.slice(lastIndex, index));
     }
+
+    if (token.startsWith('**')) {
+      elements.push(<strong key={index}>{token.slice(2, -2)}</strong>);
+    } else if (token.startsWith('*')) {
+      elements.push(<em key={index}>{token.slice(1, -1)}</em>);
+    } else if (token.startsWith('`')) {
+      elements.push(
+        <code key={index} className="bg-muted px-1 rounded text-sm">
+          {token.slice(1, -1)}
+        </code>
+      );
+    } else if (token.startsWith('[') && linkText && linkHref) {
+      elements.push(
+        <a key={index} href={linkHref} className="text-blue-600 underline">
+          {linkText}
+        </a>
+      );
+    }
+
+    lastIndex = regex.lastIndex;
   }
 
-  return parts;
+  if (lastIndex < text.length) {
+    elements.push(text.slice(lastIndex));
+  }
+
+  return elements;
 }
 
-/** Render markdown tables */
+/** Table renderer */
 function renderTable(lines: string[], key: number) {
   const headers = lines[0].split('|').filter(Boolean).map(h => h.trim());
   const rows = lines.slice(2).map(row => row.split('|').filter(Boolean).map(c => c.trim()));
