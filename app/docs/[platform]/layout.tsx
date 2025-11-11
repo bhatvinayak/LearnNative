@@ -39,12 +39,8 @@ export default function DocsLayout({
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="hidden md:block">
-              <SearchDialog lessons={allLessons} />
-            </div>
-            <div className="md:hidden">
-              <SearchDialog lessons={allLessons} isIconOnly />
-            </div>
+            <SearchDialog lessons={allLessons} />
+            <SearchDialog lessons={allLessons} isIconOnly />
             <div className="hidden md:block">
               <a
                 href="https://github.com/bhatvinayak/LearnNative.git"

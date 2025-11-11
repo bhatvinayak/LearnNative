@@ -23,9 +23,10 @@ interface SearchResult {
 
 interface SearchDialogProps {
   lessons: SearchResult[];
+  isIconOnly?: boolean;
 }
 
-export function SearchDialog({ lessons }: SearchDialogProps) {
+export function SearchDialog({ lessons, isIconOnly }: SearchDialogProps) {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState('');
   const router = useRouter();
@@ -64,18 +65,30 @@ export function SearchDialog({ lessons }: SearchDialogProps) {
 
   return (
     <>
-      <Button
-        variant="outline"
-        className="relative w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64"
-        onClick={() => setOpen(true)}
-      >
-        <Search className="mr-2 h-4 w-4" />
-        <span className="hidden lg:inline-flex">Search lessons...</span>
-        <span className="inline-flex lg:hidden">Search...</span>
-        <kbd className="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-          <span className="text-xs">⌘</span>K
-        </kbd>
-      </Button>
+      {isIconOnly ? (
+        <Button
+          variant="ghost"
+          size="sm"
+          className="md:hidden"
+          onClick={() => setOpen(true)}
+        >
+          <Search className="h-5 w-5" />
+          <span className="sr-only">Search</span>
+        </Button>
+      ) : (
+        <Button
+          variant="outline"
+          className="relative hidden w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64 md:flex"
+          onClick={() => setOpen(true)}
+        >
+          <Search className="mr-2 h-4 w-4" />
+          <span className="hidden lg:inline-flex">Search lessons...</span>
+          <span className="inline-flex lg:hidden">Search...</span>
+          <kbd className="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+            <span className="text-xs">⌘</span>K
+          </kbd>
+        </Button>
+      )}
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-2xl">
